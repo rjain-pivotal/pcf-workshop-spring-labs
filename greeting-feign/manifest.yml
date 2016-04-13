@@ -1,0 +1,11 @@
+---
+applications:
+- name: greeting-feign
+  memory: 512MB 
+  instances: 1
+  host: greeting-feign-${random-word}
+  path: ./target/greeting-feign-0.0.1-SNAPSHOT.jar
+  services:
+  - test-registry
+  env:
+    CF_TARGET: https://api.west-1.fe.gopivotal.com
