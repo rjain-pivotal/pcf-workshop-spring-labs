@@ -1,0 +1,111 @@
+:imagesdir: docs/images
+
+= Circuit Breaker Dashboard sample
+
+*Company* and *Agency* are example applications demonstrating the use of Circuit Breaker Dashboard for Pivotal Cloud Foundry. (For information on the Circuit Breaker Dashboard product, please http://docs.pivotal.io/spring-cloud-services/circuit-breaker/[see the documentation].)
+
+== Building and Deploying
+
+. Build the two projects from the root (`traveler`) directory. If using Maven, run:
++
+....
+$ mvn package
+....
++
+If using Gradle, run `./gradlew build` (OS X, Linux) or `gradlew.bat build` (Windows).
++
+....
+$ ./gradlew build
+....
+
+. Run the deployment script (if you used Maven, link:scripts/deploy_mvn.sh[`scripts/deploy_mvn.sh`] or link:scripts/deploy_mvn.bat[`scripts/deploy_mvn.bat`]; if you used Gradle, link:scripts/deploy_gradle.sh[`scripts/deploy_gradle.sh`] or link:scripts/deploy_gradle.bat[`scripts/deploy_gradle.bat`]).
++
+....
+$ ./scripts/deploy_gradle.sh
+....
++
+The script will create Circuit Breaker Dashboard and Service Registry service instances and then push the applications and bind them to the appropriate services.
++
+[NOTE]
+====
+If there are failures when the script attempts to bind a service, it is likely that the service was not fully initialized before the script ran the binding command. For each service that fails to bind to an application, you will need to bind the service manually using the `cf bind-service` command and then restage the application:
+
+....
+$ cf bind-service company service-registry
+Binding service service-registry to app company in org myorg / space outer as user...
+OK
+TIP: Use 'cf restage company' to ensure your env variable changes take effect
+$ cf restage company
+Restaging app company in org myorg / space outer as user...
+....
+====
+
+. When the script has finished, set the `CF_TARGET` environment variable in both applications to the API endpoint of your Elastic Runtime instance (as in `https://api.example.com`), then restage the applications so that the changes will take effect.
++
+....
+$ cf set-env company CF_TARGET https://api.wise.com
+Setting env variable 'CF_TARGET' to 'https://api.wise.com' for app company in org myorg / space outer as user...
+OK
+TIP: Use 'cf restage' to ensure your env variable changes take effect
+$ cf restage company
+....
++
+....
+$ cf set-env agency CF_TARGET https://api.wise.com
+Setting env variable 'CF_TARGET' to 'https://api.wise.com' for app agency in org myorg / space outer as user...
+OK
+TIP: Use 'cf restage' to ensure your env variable changes take effect
+$ cf restage agency
+....
++
+[NOTE]
+====
+By default, the Spring Cloud Services Starters for Service Registry causes all application endpoints to be secured by HTTP Basic authentication. For more information or if you wish to disable this, https://docs.pivotal.io/spring-cloud-services/service-registry/writing-client-applications.html#disable-http-basic-auth[see the documentation]. (HTTP Basic authentication is disabled in these sample applications.)
+====
+
+== Trying It Out
+
+. Visit `[ROUTE]`, where `[ROUTE]` is the route bound to the Agency application. In the Agency application, the `getGuide()` method on the `TravelAgent` class will use the Service Registry to look up the Company application and get a guide name, which will be randomly selected from a pool of three.
++
+image::guide.png[link:docs/images/guide.png]
++
+You can simulate load on the Agency application by using `curl`.
++
+....
+$ while true; do curl http://agency.wise.com; done
+....
+
+. To see the circuit breaker in action, stop the Company application. (You can do this either from Pivotal Cloud Foundry Apps Manager or using the cf Command Line Interface tool.)
++
+....
+$ cf stop company
+Stopping app company in org myorg / space outer as user...
+OK
+....
++
+The Agency application&#8217;s calls to the Company application will begin failing. Once the failure rate reaches a threshold, the Circuit Breaker Dashboard will trip the `getGuide()` breaker. The calls will fall back to the Agency application&#8217;s own `getBackupGuide()` method and return a static backup guide name while the circuit is open.
++
+image::backup-guide.png[link:docs/images/backup-guide.png]
+
+. Check the dashboard to see the breaker status. Alongside the graph, the dashboard shows the status of calls made to `getGuide()` in the last 10 seconds. Call counts are color-coded.
++
+image::open-circuit.png[link:docs/images/open-circuit.png]
+
+. Start the Company application again (using either Apps Manager or the cf CLI).
++
+....
+$ cf start company
+Starting app company in org myorg / space outer as ebenezer...
+
+0 of 1 instances running, 1 starting
+0 of 1 instances running, 1 starting
+1 of 1 instances running
+
+App started
+....
++
+After the Company application has started and re-registered with the Service Registry instance and after the registration has trickled down to the Agency application, the Circuit Breaker Dashboard will close the `getGuide()` circuit.
++
+image::closed-circuit.png[link:docs/images/closed-circuit.png]
++
+You should again see calls to the Company application going through.

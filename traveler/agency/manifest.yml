@@ -1,0 +1,11 @@
+---
+instances: 1
+memory: 512M
+applications:
+  - name: rj-agency
+    services:
+      - rj-service-registry
+      - rj-circuit-breaker-dashboard
+    env:
+      SPRING_PROFILES_ACTIVE: dev
+      CF_TARGET: https://api.pcf2.cloud.fe.pivotal.io
