@@ -10,4 +10,4 @@ applications:
     - workshop-config-service
   env:
     SPRING_PROFILES_ACTIVE: qa
-    
+    CF_TARGET: https://api.pcf2.cloud.fe.pivotal.io
