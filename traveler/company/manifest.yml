@@ -4,6 +4,7 @@ applications:
   - name: rj-company
     services:
       - rj-service-registry
+    path: ./target/company-0.0.1-SNAPSHOT.jar
     env:
       SPRING_PROFILES_ACTIVE: dev
       CF_TARGET: https://api.pcf2.cloud.fe.pivotal.io

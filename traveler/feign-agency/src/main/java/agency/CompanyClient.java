@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
-@FeignClient("https://company")
+@FeignClient("https://rj-company")
 interface CompanyClient {
   @RequestMapping(value="/available", method = GET)
   String availableGuide();

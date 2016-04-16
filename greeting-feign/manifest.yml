@@ -3,7 +3,7 @@ applications:
 - name: greeting-feign
   memory: 512MB
   instances: 1
-  host: greeting-feign-${random-word}
+  host: rj-greeting-feign
   path: ./target/greeting-feign-0.0.1-SNAPSHOT.jar
   services:
   - rj-service-registry
