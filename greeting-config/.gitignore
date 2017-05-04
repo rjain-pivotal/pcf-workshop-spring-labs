@@ -5,3 +5,5 @@
 target
 .springbeans
 
+/.gradle/
+/bin/

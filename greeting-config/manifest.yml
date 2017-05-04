@@ -1,13 +1,13 @@
 ---
 applications:
 - name: greeting-config
-  memory: 512M
+  memory: 1G
   buildpack: https://github.com/cloudfoundry/java-buildpack
   instances: 1
-  host: greeting-config
-  path: target/greeting-config-0.0.1-SNAPSHOT.jar
+  host: ins-greeting-config
+  path: build/libs/greeting-config-0.0.1-SNAPSHOT.jar
   services:
-    - workshop-config-service
+    - ins-config-server
   env:
-    SPRING_PROFILES_ACTIVE: qa
-    CF_TARGET: https://api.pcf2.cloud.fe.pivotal.io
+    SPRING_PROFILES_ACTIVE: dev
+    CF_TARGET: https://api.run.pivotal.io
