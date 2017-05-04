@@ -1,0 +1,8 @@
+server:
+  port: 8787
+spring:
+  application:
+    name: fortune-service
+security:
+  basic:
+    enabled: false    

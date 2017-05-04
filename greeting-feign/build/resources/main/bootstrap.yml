@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: greeting-feign
+security:
+  basic:
+    enabled: false
