@@ -7,4 +7,4 @@ applications:
     path: ./target/company-0.0.1-SNAPSHOT.jar
     env:
       SPRING_PROFILES_ACTIVE: dev
-      CF_TARGET: https://api.pcf2.cloud.fe.pivotal.io
+      TRUST_CERTS: https://api.run.haas-123.pez.pivotal.io
