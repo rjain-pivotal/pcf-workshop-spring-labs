@@ -3,9 +3,9 @@ applications:
 - name: greeting-feign
   memory: 512MB
   instances: 1
-  host: rj-greeting-feign
-  path: ./target/greeting-feign-0.0.1-SNAPSHOT.jar
+  host: student1-greeting-feign
+  path: ./build/libs/greeting-feign-0.0.1-SNAPSHOT.jar
   services:
-  - rj-service-registry
+  - student1-service-registry
   env:
-    CF_TARGET: https://api.pcf2.cloud.fe.pivotal.io
+    TRUST_CERTS: https://api.run.haas-123.pez.pivotal.io
