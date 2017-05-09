@@ -1,26 +1,22 @@
 buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.2.RELEASE")
-        classpath("io.spring.gradle:dependency-management-plugin:0.5.4.RELEASE")
-    }
+	ext {
+		springBootVersion = '1.5.3.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
 }
 
 apply plugin: "java"
-apply plugin: "spring-boot"
-apply plugin: "io.spring.dependency-management"
+apply plugin: 'org.springframework.boot'
+
 
 jar {
     baseName = "company"
     version = "0.0.1-SNAPSHOT"
-}
-
-dependencyManagement {
-    imports {
-        mavenBom "io.pivotal.spring.cloud:spring-cloud-services-starter-parent:1.0.2.RELEASE"
-    }
 }
 
 sourceCompatibility = 1.8
@@ -28,17 +24,25 @@ targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
-    maven {
-        url "https://repo.spring.io/libs-release"
-    }
+}
+
+ext {
+	springCloudServicesVersion = '1.4.1.RELEASE'
+	springCloudVersion = 'Dalston.RELEASE'
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web:1.2.5.RELEASE")
-    compile("org.springframework.boot:spring-boot-starter-test")
-    compile("io.pivotal.spring.cloud:spring-cloud-services-starter-service-registry")
+	compile('org.springframework.boot:spring-boot-starter-actuator')
+	compile('org.springframework.boot:spring-boot-starter-cloud-connectors')
+	compile('io.pivotal.spring.cloud:spring-cloud-services-starter-service-registry')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = "2.3"
+
+dependencyManagement {
+	imports {
+		mavenBom "io.pivotal.spring.cloud:spring-cloud-services-dependencies:${springCloudServicesVersion}"
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
 }

@@ -10,4 +10,4 @@ applications:
     - ins-config-server
   env:
     SPRING_PROFILES_ACTIVE: dev
-    CF_TARGET: https://api.run.pivotal.io
+

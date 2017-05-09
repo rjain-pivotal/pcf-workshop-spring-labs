@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 
-@SpringBootApplication
 @EnableDiscoveryClient
 @RestController
 @EnableCircuitBreaker
 @EnableFeignClients
+@SpringBootApplication
 public class AgencyApplication {
 
     @Autowired
