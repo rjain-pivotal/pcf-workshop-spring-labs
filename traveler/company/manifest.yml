@@ -1,10 +1,11 @@
 ---
-memory: 512M
+memory: 1G
 applications:
-  - name: rj-company
+  - name: company
+    host: student1-company
     services:
-      - rj-service-registry
-    path: ./target/company-0.0.1-SNAPSHOT.jar
+      - student1-service-registry
+    path: ./build/libs/company-0.0.1-SNAPSHOT.jar
     env:
       SPRING_PROFILES_ACTIVE: dev
       TRUST_CERTS: https://api.run.haas-123.pez.pivotal.io

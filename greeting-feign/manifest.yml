@@ -1,7 +1,7 @@
 ---
 applications:
 - name: greeting-feign
-  memory: 512MB
+  memory: 1G
   instances: 1
   host: student1-greeting-feign
   path: ./build/libs/greeting-feign-0.0.1-SNAPSHOT.jar
