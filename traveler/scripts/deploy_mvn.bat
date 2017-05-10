@@ -1,6 +1,6 @@
 @echo off
-#cf create-service p-service-registry standard rj-service-registry
-cf create-service p-circuit-breaker-dashboard standard rj-circuit-breaker-dashboard
+#cf create-service p-service-registry standard service-registry
+cf create-service p-circuit-breaker-dashboard standard circuit-breaker
 
 
 pushd company
