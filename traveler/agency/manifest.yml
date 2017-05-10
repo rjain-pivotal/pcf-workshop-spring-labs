@@ -8,4 +8,4 @@ applications:
     path: ./build/libs/agency-0.0.1-SNAPSHOT.jar
     env:
       SPRING_PROFILES_ACTIVE: dev
-      TRUST_CERTS: https://api.run.haas-123.pez.pivotal.io
+      TRUST_CERTS: api.run.haas-123.pez.pivotal.io

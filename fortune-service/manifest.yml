@@ -8,4 +8,4 @@ applications:
   services:
   - student1-service-registry
   env:
-    TRUST_CERTS: https://api.run.haas-123.pez.pivotal.io
+    TRUST_CERTS: api.run.haas-123.pez.pivotal.io
