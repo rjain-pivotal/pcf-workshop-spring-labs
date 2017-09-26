@@ -7,7 +7,7 @@ applications:
   host: student1-greeting-config
   path: build/libs/greeting-config-0.0.1-SNAPSHOT.jar
   services:
-    - student1-config-server
+    - student1-config-service
   env:
     SPRING_PROFILES_ACTIVE: dev
     TRUST_CERTS: api.run.haas-123.pez.pivotal.io
